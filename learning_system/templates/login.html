@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Log in{% endblock title %}
+
+{% block content %}
+<div class="enter-form">
+        <h1 class="title">Log in</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% for f in form %}
+                <label for="{{ f.id_for_label }}">{{f.label}} </label>
+                {{ f }}
+            {% endfor %}
+            <button class="btn" type="submit">Login</button>
+            <p>Have not account yet? <a href="{% url 'signup' %}">Sign up</a></p>
+        </form>
+</div>
+{% endblock content %}
