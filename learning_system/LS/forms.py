@@ -21,11 +21,6 @@ class RegistrationForm(UserCreationForm):
             'password1': 'Password',
             'password2': 'Confirm password'
         }
-        name = {
-            'teacher': 'status',
-            'student': 'status',
-        }
-
 
 class LoginUserForm(AuthenticationForm):
     class Meta:

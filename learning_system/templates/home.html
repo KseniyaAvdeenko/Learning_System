@@ -5,32 +5,35 @@
 {% block content %}
 
 {% if request.user.is_authenticated %}
-<!--    {% if user.student %}-->
-<!--        <div class="container">-->
-<!--            <h1 class="title">Tasks</h1>-->
-<!--            {% for task in tasks %}-->
-<!--                <div class="task">-->
-<!--                    <a href="#"><p> {{task.title}}</p></a>-->
-<!--                </div>-->
-<!--            {% endfor %}-->
-<!--    {% elif user.teacher %}-->
-<!--        <div class="container">-->
-<!--            <h1 class="title">Tasks for correction</h1>-->
-<!--            {% for f_c in for_correct %}-->
-<!--                <div class="task-correction">-->
-<!--                    <div class="correction-header">-->
-<!--                        <p>From student: {{f_c.made_hw_id.from_student}}</p>-->
-<!--                        <p>For task: {{f_c.made_hw_id.task_id}}</p>-->
-<!--                    </div>-->
-<!--                    <button class="btn">-->
-<!--                        <a href="#">Check it</a>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            {% endfor %}-->
-<!--        </div>-->
-<!--    {% endif %}-->
+    {% if user.teacher %}
+        <div class="container">
+            <h1 class="title">Tasks for correction</h1>
+            {% for f_c in for_correct %}
+                <div class="task-correction">
+                    <div class="correction-header">
+                        <p>From student: {{f_c.made_hw_id.from_student}}</p>
+                        <p>For task: {{f_c.made_hw_id.task_id}}</p>
+                    </div>
+                    <button class="btn">
+                        <a href="#">Check it</a>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="container">
+            <h1 class="title">Tasks</h1>
+            {% for task in tasks %}
+                <div class="task">
+                    <a href="#"><p> {{task.title}}</p></a>
+                </div>
+            {% endfor %}
+    {% endif %}
 {% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Login</a>|<a href="{% url 'signup' %}">Sign up</a>
+            <div class="not_auth">
+                <p>You are not logged in</p>
+                <a href="{% url 'login' %}">Login</a>|<a href="{% url 'signup' %}">Sign up</a>
+            </div>
+
 {% endif %}
 {% endblock content %}

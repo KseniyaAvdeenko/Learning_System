@@ -18,6 +18,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    user_profile = models.OneToOneField('Profile', null=True, on_delete=models.CASCADE)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -39,80 +40,80 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
-# class Profile(models.Model):
-#     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     marks = models.ForeignKey(
-#         'CorrectionHw',
-#         to_field='mark',
-#         blank=True,
-#         null=True,
-#         on_delete=models.CASCADE
-#     )
-#     correction_hw = models.ForeignKey(
-#         'CorrectionHw',
-#         related_name='correct',
-#         blank=True,
-#         null=True,
-#         on_delete=models.CASCADE
-#     )
-#     made_hw = models.ForeignKey(
-#         'MadeHw',
-#         blank=True,
-#         null=True,
-#         on_delete=models.CASCADE
-#     )
-#
-#     def __str__(self):
-#         return str(self.user)
-#
-#     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-#     def create_user_profile(sender, instance, created, **kwargs):
-#         if created:
-#             Profile.objects.create(user=instance)
-#
-#     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-#     def save_user_profile(sender, instance, **kwargs):
-#         instance.profile.save()
-#
-#
-# class Tasks(models.Model):
-#     title = models.CharField(max_length=255)
-#     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
-#     description = models.TextField()
-#
-#     class Meta:
-#         verbose_name = 'Task'
-#         verbose_name_plural = 'Tasks'
-#
-#     def __str__(self):
-#         return self.title
-#
-#     def get_absolute_url(self):
-#         return reverse('task', kwargs={'task_slug': self.slug})
-#
-#
-# class MadeHw(models.Model):
-#     task_id = models.ForeignKey(
-#         Tasks,
-#         on_delete=models.CASCADE
-#     )
-#
-#     from_student = models.ForeignKey(
-#         Profile,
-#         on_delete=models.CASCADE
-#     )
-#     body = models.TextField(blank=True)
-#
-#     file = models.ImageField(upload_to='media/', blank=True)
-#
-#
-# class CorrectionHw(models.Model):
-#     made_hw_id = models.ForeignKey(
-#         MadeHw,
-#         blank=True,
-#         on_delete=models.CASCADE
-#     )
-#
-#     feedback = models.TextField(blank=True)
-#
-#     mark = models.IntegerField(unique=True)
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    marks = models.ForeignKey(
+        'CorrectionHw',
+        to_field='mark',
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE
+    )
+    correction_hw = models.ForeignKey(
+        'CorrectionHw',
+        related_name='correct',
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE
+    )
+    made_hw = models.ForeignKey(
+        'MadeHw',
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return str(self.user)
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+
+class Tasks(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
+    description = models.TextField()
+
+    class Meta:
+        verbose_name = 'Task'
+        verbose_name_plural = 'Tasks'
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('task', kwargs={'task_slug': self.slug})
+
+
+class MadeHw(models.Model):
+    task_id = models.ForeignKey(
+        Tasks,
+        on_delete=models.CASCADE
+    )
+
+    from_student = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE
+    )
+    body = models.TextField(blank=True)
+
+    file = models.ImageField(upload_to='media/', blank=True)
+
+
+class CorrectionHw(models.Model):
+    made_hw_id = models.ForeignKey(
+        MadeHw,
+        blank=True,
+        on_delete=models.CASCADE
+    )
+
+    feedback = models.TextField(blank=True)
+
+    mark = models.IntegerField(unique=True, blank=True)

@@ -33,3 +33,4 @@ def home(request):
     html = 'home.html'
     context = {'users': users, 'tasks': tasks, 'for_correct': for_correct}
     return render(request, html, context)
+
