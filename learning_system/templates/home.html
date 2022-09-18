@@ -11,21 +11,36 @@
             {% for f_c in for_correct %}
                 <div class="task-correction">
                     <div class="correction-header">
-                        <p>From student: {{f_c.made_hw_id.from_student}}</p>
-                        <p>For task: {{f_c.made_hw_id.task_id}}</p>
+                        <p>From student: {{f_c.from_student}}</p>
+                        <p>For task: {{f_c.task_id}}</p>
                     </div>
                     <button class="btn">
-                        <a href="#">Check it</a>
+                        <a href="{% url  'correct_task' f_c.pk %}">Check it</a>
                     </button>
                 </div>
             {% endfor %}
+        </div>
+    {% elif user.is_staff %}
+        <div class="container">
+                    <h1 class="title">Tasks for correction</h1>
+                    {% for f_c in for_correct %}
+                        <div class="task-correction">
+                            <div class="correction-header">
+                                <p>From student: {{f_c.from_student}}</p>
+                                <p>For task: {{f_c.task_id}}</p>
+                            </div>
+                            <button class="btn">
+                                <a href="{% url  'task_detail' f_c.pk %}">Check it</a>
+                            </button>
+                        </div>
+                    {% endfor %}
         </div>
     {% else %}
         <div class="container">
             <h1 class="title">Tasks</h1>
             {% for task in tasks %}
                 <div class="task">
-                    <a href="#"><p> {{task.title}}</p></a>
+                    <a href="{% url  'task_detail' task.slug %}"><p> {{task.title}}</p></a>
                 </div>
             {% endfor %}
     {% endif %}

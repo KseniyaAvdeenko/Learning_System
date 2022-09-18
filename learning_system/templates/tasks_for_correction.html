@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}{{task.title}}{% endblock title %}
+
+{% block content %}
+    {% if user.teacher %}
+        <div class="container">
+            <h1 class="title">Tasks for correction</h1>
+                <div class="hw-form">
+                    <div class="form-header">
+                        <p>From_student: {{ c_task.from_student}}</p>
+                        <p>For task: {{ c_task.task_id}}</p>
+                        <p>Descrip: {{ c_task.task_id.description}}</p>
+                    </div>
+
+                    <div class="form-body">
+                        <div class="stud-answer">
+                            {{ c_task.body }}
+                        </div>
+
+<!--                        <div class="img-container">-->
+<!--                            {% for c_t_f in c_task.file %}-->
+<!--                                <div class="img">-->
+<!--                                    {{ c_t_f }}-->
+<!--                                </div>-->
+<!--                            {% endfor %}-->
+<!--                        </div>-->
+                    </div>
+                </div>
+
+<div class="hw-form">
+                    <div class="form-header">
+                        For_student: {{ c_task.task_id.description}}
+                    </div>
+
+                    <div class="form-body">
+                        <form method="post" class="madehw">
+                            {% csrf_token %}
+                            {{form.feedback}}
+                            <div class="mark">
+                                <label for="{{ form.mark.id_for_label }}">{{ form.mark.label }}</label>
+                                {{form.mark}}
+                            </div>
+                            <button class="btn" type="submit">Check</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% elif user.is_staff %}
+        <div class="container">
+            <h1 class="title">Tasks for correction</h1>
+                <div class="hw-form">
+                    <div class="form-header">
+                        <p>From_student: {{ c_task.from_student}}</p>
+                        <p>For task: {{ c_task.task_id}}</p>
+                        <p>Descrip: {{ c_task.task_id.description}}</p>
+                    </div>
+
+                    <div class="form-body">
+                        <div class="stud-answer">
+                            {{ c_task.body }}
+                        </div>
+
+<!--                        <div class="img-container">-->
+<!--                            {% for c_t_f in c_task.file %}-->
+<!--                                <div class="img">-->
+<!--                                    {{ c_t_f }}-->
+<!--                                </div>-->
+<!--                            {% endfor %}-->
+<!--                        </div>-->
+                    </div>
+                </div>
+
+                <div class="hw-form">
+                    <div class="form-header">
+                        <p>For_student: {{ c_task.from_student}}</p>
+                    </div>
+
+                    <div class="form-body">
+                        <form method="post" class="madehw">
+                            {% csrf_token %}
+                            {{form.feedback}}
+                            <div class="mark">
+                                <label for="{{ form.mark.id_for_label }}">{{ form.mark.label }}</label>
+                                {{form.mark}}
+                            </div>
+                            <button class="btn" type="submit">Check</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>You are not a teacher. You have not rights to see the content of this page.</p>
+    {% endif %}
+
+{% endblock content %}
+
+
+
+
+
+
+
+

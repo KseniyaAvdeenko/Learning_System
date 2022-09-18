@@ -11,6 +11,9 @@ urlpatterns = [
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', views.logout_user, name='logout'),
     path('', views.home, name='home'),
+    path('<int:pk>/', views.correct_task, name='correct_task'),
+    path('task/<slug:task_slug>/', views.task_detail, name='task_detail'),
+
 ]
 
 if settings.DEBUG:

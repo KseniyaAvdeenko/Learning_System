@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django import forms
 
-from .models import CustomUser
+from .models import CustomUser, MadeHw, CorrectionHw
 
 
 class RegistrationForm(UserCreationForm):
@@ -22,10 +22,41 @@ class RegistrationForm(UserCreationForm):
             'password2': 'Confirm password'
         }
 
+
 class LoginUserForm(AuthenticationForm):
     class Meta:
         fields = ('email', 'password1')
         label = {
             'email': 'Email',
             'password1': 'Password',
+        }
+
+
+class MakeHwForm(forms.ModelForm):
+    class Meta:
+        model = MadeHw
+        fields = ['task_id', 'from_student', 'body', 'file']
+        widgets = {
+            'body': forms.Textarea(attrs={
+                'placeholder': '"Write the answer of your homework"'
+            }),
+            'file': forms.FileInput(attrs={
+                'class': "file",
+                'multiple accept': "image/*"
+            })
+        }
+
+
+class CorrectHwForm(forms.ModelForm):
+    class Meta:
+        model = CorrectionHw
+        fields = ['feedback', 'mark']
+        label = {
+            'mark': 'Mark',
+        }
+        widgets = {
+            'feedback': forms.Textarea(attrs={
+                'placeholder': '"Write the feedback"'
+            }),
+            'mark': forms.TextInput,
         }

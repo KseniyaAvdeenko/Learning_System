@@ -95,12 +95,16 @@ class Tasks(models.Model):
 class MadeHw(models.Model):
     task_id = models.ForeignKey(
         Tasks,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=True,
+
     )
 
     from_student = models.ForeignKey(
-        Profile,
-        on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+        unique=True,
     )
     body = models.TextField(blank=True)
 

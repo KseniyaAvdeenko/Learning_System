@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{{task.title}}{% endblock title %}
+
+{% block content %}
+    {% if user.teacher %}
+        <p>You are not a student. You have not rights to see the content of this page.</p>
+    {% elif user.is_staff %}
+<!--        <div class="container">-->
+<!--            <h1 class="title">Task</h1>-->
+<!--            <div class="task-detail">-->
+<!--                <div class="task-title">-->
+<!--                    <p> {{task.title}}</p>-->
+<!--                </div>-->
+<!--                <div class="task-descrip">-->
+<!--                    <p>Task description: {{task.description}}</p>-->
+
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="hw-form">-->
+<!--                <div class="form-body">-->
+<!--                    <form  enctype="multipart/form-data" method="post" class="madehw">-->
+<!--                        {% csrf_token %}-->
+<!--                        {{form.task_id}}-->
+<!--                        {{form.from_student}}-->
+<!--                        {{form.body}}-->
+<!--                        {{form.file}}-->
+<!--                        <button class="btn" type="submit">Send</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+    {% else %}
+        <div class="container">
+            <h1 class="title">Task</h1>
+            <div class="task-detail">
+                <div class="task-title">
+                    <p> {{task.title}}</p>
+                </div>
+                <div class="task-descrip">
+                    <p>Task description: {{task.description}}</p>
+                </div>
+            </div>
+            <div class="hw-form">
+                <div class="form-body">
+                    <form  enctype="multipart/form-data" method="post" class="madehw">
+                        {% csrf_token %}
+                        {{form.task_id}}
+                        {{form.from_student}}
+                        {{form.body}}
+                        {{form.file}}
+                        <button class="btn" type="submit">Send</button>
+                    </form>
+                </div>
+            </div>
+    {% endif %}
+
+{% endblock content %}
+
+
+
+
+
+
+
+
