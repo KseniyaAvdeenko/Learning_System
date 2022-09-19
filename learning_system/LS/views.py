@@ -1,6 +1,7 @@
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
 from django.db import IntegrityError
+from django.db.models import Avg
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
@@ -20,7 +21,7 @@ class LoginUser(LoginView):
     template_name = 'login.html'
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('profile')
 
 
 def logout_user(request):
@@ -82,7 +83,7 @@ def correct_task(request, pk):
         form = CorrectHwForm(request.POST, instance=obj)
         if form.is_valid():
             try:
-                CorrectionHw.objects.create(**form.cleaned_data)
+                # CorrectionHw.objects.create(**form.cleaned_data)
                 answer = CorrectionHw(feedback=form.cleaned_data['feedback'], mark=form.cleaned_data['mark'])
                 answer.save()
                 return redirect("home")
@@ -96,5 +97,24 @@ def correct_task(request, pk):
     context = {
         'c_task': c_task,
         'form': form,
+    }
+    return render(request, html, context)
+
+
+def profile(request, pk):
+    html = 'profile.html'
+    user = CustomUser.objects.get(pk=pk)
+    stud_quantity = CustomUser.objects.filter(teacher=False).all()
+    teach_quantity = CustomUser.objects.filter(teacher=True).all()
+    tasks_for_c = MadeHw.objects.all()
+    task_q = Tasks.objects.all()
+    marks = Profile.objects.aggregate(res=Avg('marks'))
+    context = {
+        'user': user,
+        'stud_quantity': stud_quantity,
+        'tasks_for_c': tasks_for_c,
+        'task_q': task_q,
+        'marks': marks,
+        'teach_quantity': teach_quantity,
     }
     return render(request, html, context)

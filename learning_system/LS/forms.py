@@ -50,7 +50,7 @@ class MakeHwForm(forms.ModelForm):
 class CorrectHwForm(forms.ModelForm):
     class Meta:
         model = CorrectionHw
-        fields = ['feedback', 'mark']
+        fields = [' made_hw_id', 'feedback', 'mark']
         label = {
             'mark': 'Mark',
         }

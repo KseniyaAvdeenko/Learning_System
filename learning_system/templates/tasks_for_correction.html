@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{task.title}}{% endblock title %}
+{% block title %}{% endblock title %}
 
 {% block content %}
     {% if user.teacher %}
@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-<div class="hw-form">
+                <div class="hw-form">
                     <div class="form-header">
                         For_student: {{ c_task.task_id.description}}
                     </div>
