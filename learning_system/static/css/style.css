@@ -73,6 +73,7 @@ body {
     display: flex;
     height:fit-content;
     justify-content: center;
+    min-height: 75vh;
 }
 
 .enter-form {
@@ -309,6 +310,7 @@ body {
     width: 96%;
 }
 
+.add_task,
 .form-body form {
     display: flex;
     flex-direction: column;
@@ -316,6 +318,7 @@ body {
     width: 96%;
 }
 
+.textarea,
 .form-body textarea {
     text-align: justify;
     padding: 10px 10px;
@@ -323,13 +326,16 @@ body {
     border: 1px solid #ABABAB;
 }
 
+.input,
 .form-body input {
     margin-top: 15px;
+    padding: 10px;
 }
 
 .form-body button {
     margin-top: 25px auto;
 }
+
 
 
 /*task-correction*/
@@ -444,6 +450,16 @@ body {
 .not_auth {
     display:flex;
     flex-direction: column;
+    margin-top: 35px;
+}
+
+.not_auth p {
+    display:flex;
+    width: fit-content;
+    align-items: baseline;
+    flex-direction: row;
+    font-size: 28px;
+    margin: 5px auto;
 }
 
 .not_auth a {
@@ -458,3 +474,43 @@ body {
     margin-bottom: 20px;
 }
 
+/*admin task view*/
+
+.task-title-admin,
+.inner,
+.icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.task-title-admin { 
+    justify-content: flex-end;
+    width: 100%;
+    height: 40px;
+    background: #ABABAB;
+}
+
+.inner {
+    width: 50%;
+    justify-content: space-between;
+    margin-right: 15px;
+}
+
+.icons svg {
+    margin-left: 10px;
+}
+
+/*adding*/
+
+.adding {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    padding: 10px;
+}
+
+.adding svg {
+    margin-left: 5px;
+}

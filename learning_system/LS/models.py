@@ -15,6 +15,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(verbose_name='last name', max_length=30)
     email = models.EmailField(unique=True)
     teacher = models.BooleanField(default=False)
+    student = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

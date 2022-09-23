@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DetailView
-from .forms import RegistrationForm, LoginUserForm, MakeHwForm, CorrectHwForm
+from .forms import RegistrationForm, LoginUserForm, MakeHwForm, CorrectHwForm, TasksForm
 from .models import *
 
 
@@ -21,7 +21,7 @@ class LoginUser(LoginView):
     template_name = 'login.html'
 
     def get_success_url(self):
-        return reverse_lazy('profile')
+        return reverse_lazy('home')
 
 
 def logout_user(request):
@@ -83,7 +83,7 @@ def correct_task(request, pk):
         form = CorrectHwForm(request.POST, instance=obj)
         if form.is_valid():
             try:
-                # CorrectionHw.objects.create(**form.cleaned_data)
+                CorrectionHw.objects.create(**form.cleaned_data)
                 answer = CorrectionHw(feedback=form.cleaned_data['feedback'], mark=form.cleaned_data['mark'])
                 answer.save()
                 return redirect("home")
@@ -118,3 +118,9 @@ def profile(request, pk):
         'teach_quantity': teach_quantity,
     }
     return render(request, html, context)
+
+
+class AddTask(CreateView):
+    form_class = TasksForm
+    template_name = 'add_task.html'
+    success_url = reverse_lazy('home')

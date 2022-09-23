@@ -15,7 +15,7 @@
             <nav class="nav">
                 {% if user.is_authenticated %}
                     <ul>
-                        <li><a href="{% url 'profile' user.pk %}">You are {{ user.email }}</li>
+                        <li><a href="{% url 'profile' user.pk %}">You are {{ user.email }}</a></li>
                         <li><a href="{% url 'logout' %}">Log out</a></li>
                     </ul>
                 {% else %}

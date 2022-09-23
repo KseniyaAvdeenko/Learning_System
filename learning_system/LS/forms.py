@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django import forms
 
-from .models import CustomUser, MadeHw, CorrectionHw
+from .models import CustomUser, MadeHw, CorrectionHw, Tasks
 
 
 class RegistrationForm(UserCreationForm):
@@ -50,7 +50,7 @@ class MakeHwForm(forms.ModelForm):
 class CorrectHwForm(forms.ModelForm):
     class Meta:
         model = CorrectionHw
-        fields = [' made_hw_id', 'feedback', 'mark']
+        fields = ['feedback', 'mark']
         label = {
             'mark': 'Mark',
         }
@@ -59,4 +59,20 @@ class CorrectHwForm(forms.ModelForm):
                 'placeholder': '"Write the feedback"'
             }),
             'mark': forms.TextInput,
+        }
+
+
+class TasksForm(forms.ModelForm):
+    class Meta:
+        model = Tasks
+        fields = ['title', 'description']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'placeholder': "Write the title of the task",
+                'class': 'input',
+        }),
+            'description': forms.Textarea(attrs={
+                'placeholder': "Write the description of the task",
+                'class': 'textarea',
+            })
         }
