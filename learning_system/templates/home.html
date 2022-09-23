@@ -36,7 +36,7 @@
             {% if tasks %}
                 {% for task in tasks %}
                     <div class="task">
-                        <a href="#"><p> {{task.title}}</p></a>
+                        <a href="{% url 'task_detail' task.slug %}"><p> {{task.title}}</p></a>
                     </div>
                 {% endfor %}
             {% else %}

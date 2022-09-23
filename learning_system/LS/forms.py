@@ -62,15 +62,41 @@ class CorrectHwForm(forms.ModelForm):
         }
 
 
-class TasksForm(forms.ModelForm):
+class AddTaskForm(forms.ModelForm):
     class Meta:
         model = Tasks
-        fields = ['title', 'description']
+        fields = ['title', 'slug', 'description']
         widgets = {
             'title': forms.TextInput(attrs={
                 'placeholder': "Write the title of the task",
                 'class': 'input',
         }),
+            'slug': forms.TextInput(attrs={
+                'class': 'input-slug',
+                'placeholder': "Write the slug of the task",
+            }),
+
+            'description': forms.Textarea(attrs={
+                'placeholder': "Write the description of the task",
+                'class': 'textarea',
+            })
+        }
+
+
+class UpdateTaskForm(forms.ModelForm):
+    class Meta:
+        model = Tasks
+        fields = ['title', 'slug', 'description']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'placeholder': "Write the title of the task",
+                'class': 'input',
+        }),
+            'slug': forms.TextInput(attrs={
+                'class': 'input-slug',
+                'placeholder': "Write the slug of the task",
+            }),
+
             'description': forms.Textarea(attrs={
                 'placeholder': "Write the description of the task",
                 'class': 'textarea',

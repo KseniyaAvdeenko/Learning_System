@@ -5,8 +5,8 @@ from django.db.models import Avg
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, DetailView
-from .forms import RegistrationForm, LoginUserForm, MakeHwForm, CorrectHwForm, TasksForm
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from .forms import RegistrationForm, LoginUserForm, MakeHwForm, CorrectHwForm, AddTaskForm, UpdateTaskForm
 from .models import *
 
 
@@ -121,6 +121,21 @@ def profile(request, pk):
 
 
 class AddTask(CreateView):
-    form_class = TasksForm
+    form_class = AddTaskForm
     template_name = 'add_task.html'
+    success_url = reverse_lazy('home')
+
+
+class UpdateTask(UpdateView):
+    model = Tasks
+    form_class = UpdateTaskForm
+    template_name = 'task_edit.html'
+    slug_url_kwarg = 'task_slug'
+    success_url = reverse_lazy('home')
+
+
+class DeleteTask(DeleteView):
+    model = Tasks
+    template_name = 'task_delete.html'
+    slug_url_kwarg = 'task_slug'
     success_url = reverse_lazy('home')

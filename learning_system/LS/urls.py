@@ -14,7 +14,10 @@ urlpatterns = [
     path('correction/<int:pk>/', views.correct_task, name='correct_task'),
     path('task/<slug:task_slug>/', views.task_detail, name='task_detail'),
     path('profile/<int:pk>/', views.profile, name='profile'),
-    path('add_task/', AddTask.as_view(), name='add_task')
+    path('add_task/', AddTask.as_view(), name='add_task'),
+    path('task/<slug:task_slug>/edit', UpdateTask.as_view(), name='edit_task'),
+    path('task/<slug:task_slug>/delete/', DeleteTask.as_view(), name='delete_task')
+
 ]
 
 if settings.DEBUG:

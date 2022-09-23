@@ -318,7 +318,13 @@ body {
     width: 96%;
 }
 
-.textarea,
+.textarea{
+    text-align: justify;
+    padding: 10px 10px;
+    min-height: 40px;
+    border: 1px solid #ABABAB;
+}
+
 .form-body textarea {
     text-align: justify;
     padding: 10px 10px;
@@ -326,9 +332,20 @@ body {
     border: 1px solid #ABABAB;
 }
 
-.input,
+.input {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.input-slug {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
 .form-body input {
     margin-top: 15px;
+    margin-bottom: 10px;
     padding: 10px;
 }
 
@@ -497,8 +514,19 @@ body {
     margin-right: 15px;
 }
 
-.icons svg {
+.icons a {
     margin-left: 10px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.icons a:hover {
+    color: #1555FA;
+}
+
+.inner button {
+    border: none;
+    background-color: none;
 }
 
 /*adding*/
@@ -514,3 +542,12 @@ body {
 .adding svg {
     margin-left: 5px;
 }
+
+/*delete task*/
+
+.delete-btn {
+    background-color: #000000;
+    color: #FFFFFF;
+    margin: 15px auto;
+    padding: 5px 20px;
+} 

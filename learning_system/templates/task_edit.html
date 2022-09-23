@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Add task{% endblock title %}
+{% block title %}Edit task{% endblock title %}
 
 {% block content %}
     {% if user.teacher %}
         <p>You are not a student. You have not rights to see the content of this page.</p>
     {% elif user.is_staff %}
         <div class="container">
-            <h1 class="title">Add task</h1>
+            <h1 class="title">Edit task</h1>
             <div class="hw-form">
                 <div class="form-body">
                     <form method="post" class="add_task">
@@ -15,7 +15,7 @@
                         {{form.title}}
                         {{form.slug}}
                         {{form.description}}
-                        <button class="btn" type="submit">Add</button>
+                        <button class="btn" type="submit">Edit</button>
                     </form>
                 </div>
             </div>
