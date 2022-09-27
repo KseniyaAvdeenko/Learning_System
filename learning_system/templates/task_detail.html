@@ -35,6 +35,13 @@
     {% elif user.student %}
         <div class="container">
             <h1 class="title">Task</h1>
+
+            <div class="btn-feedback">
+                {% if feedback %}
+                    <button><a href="#">FEEDBACK</a></button>
+                {% endif %}
+            </div>
+
             <div class="task-detail">
                 <div class="task-title">
                     <p> {{task.title}}</p>

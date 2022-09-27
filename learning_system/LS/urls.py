@@ -1,7 +1,4 @@
 from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
-from django.urls import path
 from . import views
 from .views import *
 
@@ -16,9 +13,8 @@ urlpatterns = [
     path('profile/<int:pk>/', views.profile, name='profile'),
     path('add_task/', AddTask.as_view(), name='add_task'),
     path('task/<slug:task_slug>/edit', UpdateTask.as_view(), name='edit_task'),
-    path('task/<slug:task_slug>/delete/', DeleteTask.as_view(), name='delete_task')
-
+    path('task/<slug:task_slug>/delete/', DeleteTask.as_view(), name='delete_task'),
+    path('profile/<int:pk>/members/', views.show_members, name='members'),
+    path('task/<slug:task_slug>/feedback/', views.task_detail, name='feedback'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

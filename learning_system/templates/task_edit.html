@@ -4,7 +4,7 @@
 
 {% block content %}
     {% if user.teacher %}
-        <p>You are not a student. You have not rights to see the content of this page.</p>
+        <p>You are not a staff. You have not rights to see the content of this page.</p>
     {% elif user.is_staff %}
         <div class="container">
             <h1 class="title">Edit task</h1>
@@ -20,7 +20,7 @@
                 </div>
             </div>
     {% elif user.student %}
-        <p>You are not a student. You have not rights to see the content of this page.</p>
+        <p>You are not a staff. You have not rights to see the content of this page.</p>
     {% endif %}
 
 {% endblock content %}

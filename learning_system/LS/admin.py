@@ -9,18 +9,18 @@ class CustomUserAdmin(admin.ModelAdmin):
         'last_name',
         'email',
         'teacher',
+        'student',
         'is_staff',
         'date_joined',
         'user_profile'
     ]
-    list_filter = ['is_staff', 'teacher']
+    list_filter = ['is_staff', 'teacher', 'student']
 
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = [
         'user',
-        'made_hw',
-        'correction_hw'
+        'made_hw'
     ]
     list_filter = ['user']
 
@@ -32,13 +32,19 @@ class TasksAdmin(admin.ModelAdmin):
 
 
 class MadeHwAdmin(admin.ModelAdmin):
-    list_display = ['task_id', 'from_student']
-    list_filter = ['task_id', 'from_student']
+    list_display = [
+        'task_id',
+        'from_student',
+        'file']
+    list_filter = [
+        'task_id',
+        'from_student',
+        ]
 
 
 class CorrectionHwAdmin(admin.ModelAdmin):
-    list_display = ['made_hw_id', 'feedback', 'mark']
-    list_filter = ['id', 'made_hw_id']
+    list_display = ['for_task', "for_student", 'feedback', 'mark']
+    list_filter = ['id', 'for_task', 'for_student']
 
 
 admin.site.register(CorrectionHw, CorrectionHwAdmin),

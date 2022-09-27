@@ -41,31 +41,36 @@ def home(request):
 def task_detail(request, task_slug):
     html = 'task_detail.html'
     task = get_object_or_404(Tasks, slug=task_slug)
+    if request.user.is_authenticated:
+        feedback = CorrectionHw.objects.filter(for_student=request.user.email).all()
     form = MakeHwForm()
     initial_obj = None
     if request.user.is_authenticated:
-        initial_obj = {'from_student': request.user.get_full_name()}
-    obj = Tasks.objects.get(slug=task_slug)
-
+        initial_obj = {'from_student': request.user.email}
     if request.method == "POST":
-        form = MakeHwForm(request.POST, request.FILES, initial=initial_obj, instance=obj)
+        form = MakeHwForm(request.POST, request.FILES, initial=initial_obj)
         if form.is_valid():
 
             try:
-                MadeHw.objects.create(**form.cleaned_data)
-                answer = MadeHw(body=form.cleaned_data['body'], file=form.cleaned_data['file'])
+                answer = MadeHw(
+                    task_id=form.cleaned_data['task_id'],
+                    from_student=form.cleaned_data['from_student'],
+                    body=form.cleaned_data['body'],
+                    file=form.cleaned_data['file']
+                )
                 answer.save()
                 return redirect("home")
             except IntegrityError as e:
                 if 'unique constraint' in e.args:
                     pass
 
-        else:
-            form = MakeHwForm(initial=initial_obj, instance=obj)
+    else:
+        form = MakeHwForm(initial=initial_obj)
 
     context = {
         'task': task,
         'form': form,
+        'feedback': feedback
     }
     return render(request, html, context)
 
@@ -73,18 +78,18 @@ def task_detail(request, task_slug):
 def correct_task(request, pk):
     html = 'tasks_for_correction.html'
     c_task = get_object_or_404(MadeHw, pk=pk)
-    form = CorrectHwForm()
-    # initial_obj = None
-    # if request.user.is_authenticated:
-    #     initial_obj = {'made': request.user.get_full_name()}
-    obj = MadeHw.objects.get(pk=pk)
-    #
+    obj = {'for_student': c_task.from_student}
+    form = CorrectHwForm(initial=obj)
     if request.method == "POST":
-        form = CorrectHwForm(request.POST, instance=obj)
+        form = CorrectHwForm(request.POST, initial=obj)
         if form.is_valid():
             try:
-                CorrectionHw.objects.create(**form.cleaned_data)
-                answer = CorrectionHw(feedback=form.cleaned_data['feedback'], mark=form.cleaned_data['mark'])
+                answer = CorrectionHw(
+                    for_task=form.cleaned_data['for_task'],
+                    for_student=form.cleaned_data['for_student'],
+                    feedback=form.cleaned_data['feedback'],
+                    mark=form.cleaned_data['mark']
+                )
                 answer.save()
                 return redirect("home")
             except IntegrityError as e:
@@ -92,7 +97,7 @@ def correct_task(request, pk):
                     pass
 
         else:
-            form = CorrectHwForm(instance=obj)
+            form = CorrectHwForm(initial=obj)
 
     context = {
         'c_task': c_task,
@@ -101,20 +106,43 @@ def correct_task(request, pk):
     return render(request, html, context)
 
 
+def show_answer(request):
+    html = 'feedback.html'
+    # task = Tasks.objects.get(pk=pk)
+    # feedback = get_object_or_404(CorrectionHw, for_task=pk)
+    # stud_answer = get_object_or_404(MadeHw, task_id=pk)
+    # context = {
+    #     'task': task,
+    #     'feedback': feedback,
+    #     'stud_answer': stud_answer
+    # }
+    return render(request, html, context)
+
+
+
 def profile(request, pk):
     html = 'profile.html'
     user = CustomUser.objects.get(pk=pk)
-    stud_quantity = CustomUser.objects.filter(teacher=False).all()
+    users = CustomUser.objects.all()
+    stud_quantity = CustomUser.objects.filter(student=True).all()
     teach_quantity = CustomUser.objects.filter(teacher=True).all()
     tasks_for_c = MadeHw.objects.all()
     task_q = Tasks.objects.all()
+    # all_marks = []
+    # all_marks = CorrectionHw.objects.values('mark').all()
+    # print(all_marks)
+    # for mark in marks:
+    #     all_marks.append(mark)
+    #     print(all_marks)
     marks = Profile.objects.aggregate(res=Avg('marks'))
     context = {
         'user': user,
+        'users': users,
         'stud_quantity': stud_quantity,
         'tasks_for_c': tasks_for_c,
         'task_q': task_q,
         'marks': marks,
+        # 'all_marks': all_marks,
         'teach_quantity': teach_quantity,
     }
     return render(request, html, context)
@@ -139,3 +167,20 @@ class DeleteTask(DeleteView):
     template_name = 'task_delete.html'
     slug_url_kwarg = 'task_slug'
     success_url = reverse_lazy('home')
+
+
+def show_members(request, pk):
+    html = 'members.html'
+    user = CustomUser.objects.get(pk=pk)
+    users = CustomUser.objects.all()
+    students = CustomUser.objects.filter(student=True).all()
+    teachers = CustomUser.objects.filter(teacher=True).all()
+    context = {
+        'students': students,
+        'user': user,
+        'users': users,
+        'teachers': teachers
+    }
+    return render(request, html, context)
+
+

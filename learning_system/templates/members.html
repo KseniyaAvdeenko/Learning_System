@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Members{% endblock title %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+    {% if user.teacher %}
+        <p>You are not a staff. You have not rights to see the content of this page.</p>
+    {% elif user.is_staff %}
+        <div class="container">
+            <div class="container">
+                <div class="container-profile">
+
+                    <div class="data">
+
+                        <div class="sub-title-container">
+
+                            <div class="sub-title">
+
+                                <h4>All members</h4>
+                            </div><!--class="sub-title"-->
+
+                        </div><!--class="sub-title-container"-->
+                        {% if users %}
+                            {% for user in users %}
+                                <p>{{user.get_full_name}}</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>There is not any user</p>
+                        {% endif %}
+                    </div><!--class="data"-->
+
+                    <div class="learn">
+
+                        <div class="sub-title">
+                            <h4>Teachers</h4>
+                        </div><!--class="sub-title"-->
+                        {% if teachers %}
+                            {% for teacher in teachers %}
+                                <p>{{teacher.get_full_name}}</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>There is not any teacher</p>
+                        {% endif %}
+                    </div><!--class="learn"-->
+
+                    <div class="learn">
+
+                        <div class="sub-title">
+                            <h4>Students</h4>
+                        </div><!--class="sub-title"-->
+                        {% if students %}
+                            {% for student in students %}
+                                <p>{{student.get_full_name}}</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>There is not any student</p>
+                        {% endif %}
+                    </div><!--class="learn"-->
+
+                </div><!--class="container-profile"-->
+            </div>
+        </div>
+    {% elif user.student %}
+        <p>You are not a staff. You have not rights to see the content of this page.</p>
+    {% endif %}
+{% else %}
+    <div class="not_auth">
+        <p>You are not logged in</p>
+        <a href="{% url 'login' %}">Login</a>|<a href="{% url 'signup' %}">Sign up</a>
+    </div>
+
+{% endif %}
+{% endblock content %}

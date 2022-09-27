@@ -46,16 +46,16 @@ class Profile(models.Model):
     marks = models.ForeignKey(
         'CorrectionHw',
         to_field='mark',
+        on_delete=models.CASCADE,
         blank=True,
-        null=True,
-        on_delete=models.CASCADE
+        null=True
     )
     correction_hw = models.ForeignKey(
         'CorrectionHw',
         related_name='correct',
-        blank=True,
+        on_delete=models.CASCADE,
         null=True,
-        on_delete=models.CASCADE
+        blank=True,
     )
     made_hw = models.ForeignKey(
         'MadeHw',
@@ -98,27 +98,37 @@ class MadeHw(models.Model):
         Tasks,
         on_delete=models.CASCADE,
         null=True,
-
+        default=''
     )
+    from_student = models.EmailField(default='')
 
-    from_student = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        null=True,
-        unique=True,
-    )
-    body = models.TextField(blank=True)
+    body = models.TextField(blank=True, null=True)
 
-    file = models.ImageField(upload_to='media/', blank=True)
+    file = models.ImageField(upload_to='media/', blank=True, null=True)
 
 
 class CorrectionHw(models.Model):
-    made_hw_id = models.ForeignKey(
-        MadeHw,
-        blank=True,
-        on_delete=models.CASCADE
+    for_task = models.ForeignKey(
+        Tasks,
+        on_delete=models.CASCADE,
+        default=''
     )
+
+    for_student = models.EmailField(default='')
 
     feedback = models.TextField(blank=True)
 
     mark = models.IntegerField(unique=True, blank=True)
+
+
+class CorrectedHw(models.Model):
+    task = models.ForeignKey(
+        Tasks,
+        on_delete=models.CASCADE,
+        default=''
+    )
+    from_student = models.EmailField(default='')
+
+    body = models.TextField(blank=True, null=True)
+
+    file = models.ImageField(upload_to='media/archive', blank=True, null=True)

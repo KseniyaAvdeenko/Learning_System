@@ -50,7 +50,7 @@ class MakeHwForm(forms.ModelForm):
 class CorrectHwForm(forms.ModelForm):
     class Meta:
         model = CorrectionHw
-        fields = ['feedback', 'mark']
+        fields = ['for_task', 'for_student', 'feedback', 'mark']
         label = {
             'mark': 'Mark',
         }
@@ -58,7 +58,7 @@ class CorrectHwForm(forms.ModelForm):
             'feedback': forms.Textarea(attrs={
                 'placeholder': '"Write the feedback"'
             }),
-            'mark': forms.TextInput,
+            'mark': forms.NumberInput()
         }
 
 
