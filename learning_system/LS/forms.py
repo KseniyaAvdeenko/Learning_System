@@ -35,7 +35,7 @@ class LoginUserForm(AuthenticationForm):
 class MakeHwForm(forms.ModelForm):
     class Meta:
         model = MadeHw
-        fields = ['task_id', 'from_student', 'body', 'file']
+        fields = '__all__'
         widgets = {
             'body': forms.Textarea(attrs={
                 'placeholder': '"Write the answer of your homework"'
@@ -43,14 +43,19 @@ class MakeHwForm(forms.ModelForm):
             'file': forms.FileInput(attrs={
                 'class': "file",
                 'multiple accept': "image/*"
-            })
+            }),
         }
 
 
 class CorrectHwForm(forms.ModelForm):
     class Meta:
         model = CorrectionHw
-        fields = ['for_task', 'for_student', 'feedback', 'mark']
+        fields = [
+            'for_task',
+            'for_student',
+            'from_teacher',
+            'feedback',
+            'mark']
         label = {
             'mark': 'Mark',
         }
@@ -61,6 +66,14 @@ class CorrectHwForm(forms.ModelForm):
             'mark': forms.NumberInput()
         }
 
+
+class MakeItChecked(forms.ModelForm):
+    class Meta:
+        model = MadeHw
+        fields = ['is_checked']
+        widgets = {
+            'is_corrected': forms.CheckboxInput()
+        }
 
 class AddTaskForm(forms.ModelForm):
     class Meta:

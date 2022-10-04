@@ -36,6 +36,7 @@
                             {% csrf_token %}
                             {{form.for_task}}
                             {{form.for_student}}
+                            {{form.from_teacher}}
                             {{form.feedback}}
                             <div class="mark">
                                 <label for="{{ form.mark.id_for_label }}">{{ form.mark.label }}</label>

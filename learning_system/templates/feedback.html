@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Teacher's feedback{% endblock title %}
+{% block title %}Feedback{% endblock title %}
 
 {% block content %}
     {% if user.teacher %}
@@ -9,49 +9,39 @@
         <p>You are not a student. You have not rights to see the content of this page.</p>
     {% elif user.student %}
         <div class="container">
+
             <h1 class="title">Feedback</h1>
-            <div class="hw-form">
-                    <div class="form-header">
 
-                        <p>For task: {{ stud_answer.task_id.title}}</p>
-                        <p>Description: {{ stud_answer.task_id.description}}</p>
-                        <p>From_student: {{ stud_answer.from_student}}</p>
+            <div class="task-detail">
 
-                    </div>
-
-                    <div class="form-body">
-                        <div class="stud-answer">
-                            {{ stud_answer.body }}
-                        </div>
-
-                        <div class="img-container">
-                            {% if stud_answer.file %}
-                                <img class="img" src="{{ stud_answer.file.url }}" alt="">
-                            {% endif %}
-                        </div>
-                    </div>
+                <div class="task-title">
+                    <p>My answer for {{ stud_answer.task_id.title}}</p>
+                    <p>Description: {{ stud_answer.task_id.description}}</p>
                 </div>
 
-            <div class="hw-form">
-                    <div class="form-header">
+                <div class="task-descrip">
+                    <p>Answer: {{ stud_answer.body }}</p>
 
-                        <p>For_student: {{ feedback.for_student}}</p>
-                        <p>For task: {{ feedback.for_task.title}}</p>
-                        <p>Description: {{ feedback.for_task.description}}</p>
-
-                    </div>
-
-                    <div class="form-body">
-                        <div class="stud-answer">
-                            {{ feedback.feedback }}
-                        </div>
-
-                        <div class="stud-answer">
-                            {{ feedback.mark }}
-                        </div>
-
+                    <div class="img-container">
+                        {% if stud_answer.file %}
+                            <img class="img" src="{{ stud_answer.file.url }}" alt="">
+                        {% endif %}
                     </div>
                 </div>
+            </div>
+
+            <div class="task-detail">
+                
+                <div class="task-title">
+                    <p>For_student: {{ feedback.for_student}}</p>
+                    <p>From teacher: {{ feedback.from_teacher}}</p>
+                </div>
+
+                <div class="task-descrip">
+                    <p>Feedback: {{ feedback.feedback }}</p>
+                    <p>Mark: {{ feedback.mark }}</p>
+                </div>
+            </div>
 
         </div>
 

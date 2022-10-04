@@ -34,22 +34,25 @@
 
     {% elif user.student %}
         <div class="container">
+
             <h1 class="title">Task</h1>
 
-            <div class="btn-feedback">
-                {% if feedback %}
-                    <button><a href="#">FEEDBACK</a></button>
-                {% endif %}
-            </div>
+            {% if feedback %}
+                <div class="btn-feedback">
+                    <a href="{% url 'feedback' task.pk %}">FEEDBACK</a>
+                </div>
+            {% endif %}
 
             <div class="task-detail">
                 <div class="task-title">
                     <p> {{task.title}}</p>
                 </div>
+
                 <div class="task-descrip">
                     <p>Task description: {{task.description}}</p>
                 </div>
             </div>
+            
             <div class="hw-form">
                 <div class="form-body">
                     <form  enctype="multipart/form-data" method="post" class="madehw">

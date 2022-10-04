@@ -43,26 +43,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    marks = models.ForeignKey(
-        'CorrectionHw',
-        to_field='mark',
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True
-    )
-    correction_hw = models.ForeignKey(
-        'CorrectionHw',
-        related_name='correct',
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-    )
-    made_hw = models.ForeignKey(
-        'MadeHw',
-        blank=True,
-        null=True,
-        on_delete=models.CASCADE
-    )
+    marks = models.ManyToManyField('CorrectionHw', related_name='marks')
+    correction_hw = models.ManyToManyField('CorrectionHw')
 
     def __str__(self):
         return str(self.user)
@@ -101,10 +83,9 @@ class MadeHw(models.Model):
         default=''
     )
     from_student = models.EmailField(default='')
-
     body = models.TextField(blank=True, null=True)
-
     file = models.ImageField(upload_to='media/', blank=True, null=True)
+    is_corrected = models.BooleanField(default=False)
 
 
 class CorrectionHw(models.Model):
@@ -113,22 +94,11 @@ class CorrectionHw(models.Model):
         on_delete=models.CASCADE,
         default=''
     )
-
     for_student = models.EmailField(default='')
-
+    from_teacher = models.ForeignKey(Profile, on_delete=models.CASCADE)
     feedback = models.TextField(blank=True)
-
     mark = models.IntegerField(unique=True, blank=True)
 
+    def __str__(self):
+        return str(self.mark)
 
-class CorrectedHw(models.Model):
-    task = models.ForeignKey(
-        Tasks,
-        on_delete=models.CASCADE,
-        default=''
-    )
-    from_student = models.EmailField(default='')
-
-    body = models.TextField(blank=True, null=True)
-
-    file = models.ImageField(upload_to='media/archive', blank=True, null=True)

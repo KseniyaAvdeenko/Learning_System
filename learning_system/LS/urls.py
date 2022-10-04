@@ -15,6 +15,6 @@ urlpatterns = [
     path('task/<slug:task_slug>/edit', UpdateTask.as_view(), name='edit_task'),
     path('task/<slug:task_slug>/delete/', DeleteTask.as_view(), name='delete_task'),
     path('profile/<int:pk>/members/', views.show_members, name='members'),
-    path('task/<slug:task_slug>/feedback/', views.task_detail, name='feedback'),
+    path('feedback/<int:pk>/', views.show_feedback, name='feedback'),
 ]
 
