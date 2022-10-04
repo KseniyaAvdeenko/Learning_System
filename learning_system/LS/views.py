@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
-from .forms import RegistrationForm, LoginUserForm, MakeHwForm, CorrectHwForm, AddTaskForm, UpdateTaskForm
+from .forms import *
 from .models import *
 
 
@@ -112,6 +112,13 @@ def correct_task(request, pk):
         'form': form,
     }
     return render(request, html, context)
+
+
+class MakeItChecked(UpdateView):
+    model = MadeHw
+    form_class = MakeItCheckedForm
+    template_name = 'make_it_checked.html'
+    success_url = reverse_lazy('home')
 
 
 def show_feedback(request, pk):

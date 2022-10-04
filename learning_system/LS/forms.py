@@ -67,13 +67,18 @@ class CorrectHwForm(forms.ModelForm):
         }
 
 
-class MakeItChecked(forms.ModelForm):
+class MakeItCheckedForm(forms.ModelForm):
     class Meta:
         model = MadeHw
-        fields = ['is_checked']
+        fields = ['is_corrected']
         widgets = {
-            'is_corrected': forms.CheckboxInput()
+            'is_corrected': forms.CheckboxInput(attrs={
+                'width': 18,
+                'height': 18,
+
+            })
         }
+
 
 class AddTaskForm(forms.ModelForm):
     class Meta:

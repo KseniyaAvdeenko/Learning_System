@@ -16,5 +16,6 @@ urlpatterns = [
     path('task/<slug:task_slug>/delete/', DeleteTask.as_view(), name='delete_task'),
     path('profile/<int:pk>/members/', views.show_members, name='members'),
     path('feedback/<int:pk>/', views.show_feedback, name='feedback'),
+    path('make_it_checked/<int:pk>/', MakeItChecked.as_view(), name="make_it_checked")
 ]
 

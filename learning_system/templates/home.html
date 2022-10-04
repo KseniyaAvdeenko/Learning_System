@@ -15,9 +15,14 @@
                             <p>From student: {{f_c.from_student}}</p>
                             <p>For task: {{f_c.task_id}}</p>
                         </div>
-                        <button class="btn">
-                            <a href="{% url  'correct_task' f_c.pk %}">Check it</a>
-                        </button>
+                        <div class="correction-btns">
+                            <button class="btn">
+                                <a href="{% url  'correct_task' f_c.pk %}">Check it</a>
+                            </button>
+                            <button class="btn">
+                                <a href="{% url 'make_it_checked' f_c.pk %}">Checked</a>
+                            </button>
+                        </div>
                     </div>
                 {% endfor %}
             {% else %}

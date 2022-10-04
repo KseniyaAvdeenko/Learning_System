@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+
+    {% if user.teacher %}
+           <div class="container">
+                <h1 class="title">Tasks for correction</h1>
+                <div class="hw-form">
+                    <div class="form-header">
+                            <p>From_student: {{ c_task.from_student}}</p>
+                            <p>For task: {{ c_task.task_id}}</p>
+                            <p>Descrip: {{ c_task.task_id.description}}</p>
+                        </div>
+
+                    <div class="form-body">
+                        <div class="stud-answer">
+                                {{ c_task.body }}
+                            </div>
+
+                        <div class="img-container">
+                                {% if c_task.file %}
+                                    <img class="img" src="{{ c_task.file.url }}" alt="">
+                                {% endif %}
+                            </div>
+                    </div>
+                </div>
+
+               <form class="mic" method="post">
+                   {% csrf_token %}
+                   {{form.is_corrected}}
+                   <button class="btn">Make this homework checked</button>
+               </form>
+           </div><!--class="container-->
+    {% elif user.is_staff %}
+        <p>You are not a teacher. You have not rights to see the content of this page.</p>
+    {% elif user.student %}
+        <p>You are not a teacher. You have not rights to see the content of this page.</p>
+    {% endif %}
+{% endblock content %}
