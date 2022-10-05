@@ -1,11 +1,12 @@
 from django.contrib.auth import logout
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.db.models import Avg, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, TemplateView
 from .forms import *
 from .models import *
 
@@ -38,7 +39,6 @@ def home(request):
         'users': users,
         'tasks': tasks,
         'for_correct': for_correct,
-
     }
     return render(request, html, context)
 
@@ -114,11 +114,33 @@ def correct_task(request, pk):
     return render(request, html, context)
 
 
-class MakeItChecked(UpdateView):
-    model = MadeHw
-    form_class = MakeItCheckedForm
-    template_name = 'make_it_checked.html'
-    success_url = reverse_lazy('home')
+def make_it_checked(request, pk):
+    html = 'make_it_checked.html'
+    c_task = get_object_or_404(MadeHw, pk=pk)
+    initial = {'is_corrected': True}
+    form = MakeItCheckedForm(initial=initial)
+    if request.method == "POST":
+        form = MakeItCheckedForm(request.POST, request.FILES, initial=initial, instance=c_task)
+        # task_id = request.POST['task_id'],
+        # from_student = request.POST['from_student'],
+        # body = request.POST['body'],
+        # file = request.POST['file'],
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect("home")
+            except IntegrityError as e:
+                if 'unique constraint' in e.args:
+                    pass
+
+        else:
+            form = MakeItCheckedForm(initial=initial, instance=c_task)
+
+    context = {
+        'c_task': c_task,
+        'form': form
+    }
+    return render(request, html, context)
 
 
 def show_feedback(request, pk):
@@ -137,15 +159,18 @@ def show_feedback(request, pk):
 def profile(request, pk):
     html = 'profile.html'
     user = CustomUser.objects.get(pk=pk)
-    users = CustomUser.objects.all()
-    stud_quantity = CustomUser.objects.filter(student=True).all()
-    teach_quantity = CustomUser.objects.filter(teacher=True).all()
-    tasks_for_c = MadeHw.objects.filter(is_corrected=False).all()
-    task_q = Tasks.objects.all()
-    c_task_q = CorrectionHw.objects.filter(for_student=request.user.email).all()
+    users = CustomUser.objects.all()  # for admin
+    stud_quantity = CustomUser.objects.filter(student=True).all()  # for admin
+    teach_quantity = CustomUser.objects.filter(teacher=True).all()  # for admin
+    tasks_for_c = MadeHw.objects.filter(is_corrected=False).all()  # for teacher
+    checked_tasks = MadeHw.objects.filter(Q(is_corrected=True)).all()  # for teacher
+    task_q = Tasks.objects.all()  # for student
+    c_task_q = CorrectionHw.objects.filter(for_student=request.user.email).all()  # for student
+    unchecked_t = MadeHw.objects.filter(is_corrected=False, from_student=request.user.email).all()  # for student
 
-    def avg_mark():
-        for a in CorrectionHw.objects.filter(for_student=request.user).values('mark').all().aggregate(res=Avg('mark')).values():
+    def avg_mark():  # for student
+        for a in CorrectionHw.objects.filter(for_student=request.user).values('mark').all().aggregate(
+                res=Avg('mark')).values():
             return a
 
     context = {
@@ -156,7 +181,9 @@ def profile(request, pk):
         'task_q': task_q,
         'avg_mark': avg_mark,
         'teach_quantity': teach_quantity,
-        'c_task_q': c_task_q
+        'c_task_q': c_task_q,
+        'checked': checked_tasks,
+        'unchecked': unchecked_t
     }
     return render(request, html, context)
 
@@ -195,5 +222,12 @@ def show_members(request, pk):
         'teachers': teachers
     }
     return render(request, html, context)
+
+
+class ChangeEmail(UpdateView):
+    model = CustomUser
+    form_class = ChangeEmailForm
+    template_name = 'change_email.html'
+    success_url = reverse_lazy('home')
 
 

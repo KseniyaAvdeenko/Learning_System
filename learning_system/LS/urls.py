@@ -1,3 +1,4 @@
+from django.contrib.auth.views import PasswordChangeDoneView
 from django.urls import path
 from . import views
 from .views import *
@@ -16,6 +17,9 @@ urlpatterns = [
     path('task/<slug:task_slug>/delete/', DeleteTask.as_view(), name='delete_task'),
     path('profile/<int:pk>/members/', views.show_members, name='members'),
     path('feedback/<int:pk>/', views.show_feedback, name='feedback'),
-    path('make_it_checked/<int:pk>/', MakeItChecked.as_view(), name="make_it_checked")
+    path('make_it_checked/<int:pk>/', views.make_it_checked, name="make_it_checked"),
+    path('profile/<int:pk>/change_email', ChangeEmail.as_view(), name='change_email'),
+    path('password-change/', PasswordChangeView.as_view(), name='password_change'),
+    path('password-change/done/', PasswordChangeDoneView.as_view(), name='password_change_done'),
 ]
 

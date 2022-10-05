@@ -1,7 +1,7 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, PasswordChangeForm
 from django import forms
 
-from .models import CustomUser, MadeHw, CorrectionHw, Tasks
+from .models import *
 
 
 class RegistrationForm(UserCreationForm):
@@ -120,3 +120,10 @@ class UpdateTaskForm(forms.ModelForm):
                 'class': 'textarea',
             })
         }
+
+
+class ChangeEmailForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email']
+

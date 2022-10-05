@@ -46,13 +46,13 @@ class CorrectionHwAdmin(admin.ModelAdmin):
     list_display = [
         'for_task',
         "for_student",
-        # 'from_teacher',
+        'from_teacher',
         'feedback',
         'mark']
     list_filter = [
         'id',
         'for_task',
-        # 'from_teacher',
+        'from_teacher',
         'for_student']
 
 

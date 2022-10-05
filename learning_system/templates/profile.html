@@ -35,13 +35,14 @@
                         </svg>
                         <h4>Teaching</h4>
                     </div><!--class="sub-title"-->
-                    <p>Uncorrected homeworks quantity: <a href="{% url 'home' %}">{{ tasks_for_c|length }} </a>  </p>
+                    <p>Unchecked homeworks quantity:<a href="{% url 'home' %}"> {{ tasks_for_c|length }}</a></p>
+                    <p>Checked homeworks quantity: {{ checked|length }}</p>
                     <p>Student quantity: {{ stud_quantity|length }} </p>
                     <p>Student_list: </p>
                     {% for s_q in stud_quantity %}
                         <div class="stud-list">
                             <div class="stud-list-each">
-                                <p>{{s_q.get_full_name}} </p>
+                                <p>{{s_q.get_full_name}}</p>
                             </div>
                         </div><!--class="stud-list"-->
                     {% endfor  %}
@@ -56,8 +57,8 @@
                         </svg>
                         <h4>Settings</h4>
                     </div><!--class="sub-title"-->
-                    <p><a href="#">Change email</a></p>
-                    <p><a href="#">Change password</a></p>
+                    <p><a href="{% url 'change_email' user.pk %}">Change email</a></p>
+                    <p><a href="{% url 'password_change' %}">Change password</a></p>
                 </div><!--class="learn"-->
 
             </div><!--class="container-profile"-->
@@ -119,12 +120,9 @@
                         </svg>
                         <h4>Settings</h4>
                     </div><!--class="sub-title"-->
-                    <p><a href="#">Change email</a></p>
-                    <p><a href="#">Change password</a></p>
+                    <p><a href="{% url 'change_email' user.pk %}">Change email</a></p>
+                    <p><a href="{% url 'password_change' %}">Change password</a></p>
                 </div><!--class="learn"-->
-
-
-
             </div><!--class="container-profile"-->
         </div>
         </div>
@@ -160,9 +158,10 @@
                         <h4>Learning</h4>
                     </div><!--class="sub-title"-->
 
-                    <p>Task quantity: <a href="{% url 'home' %}"> {{task_q|length}}</a></p>
-                    <p>Corrected tasks: {{c_task_q|length}}</p>
-                    <p>Avg mark: {{avg_mark}}</p>
+                    <p>Task quantity: <a href="{% url 'home' %}"> {{ task_q|length }}</a></p>
+                    <p>Unchecked tasks: {{ unchecked|length }}</p>
+                    <p>Checked tasks: {{c_task_q|length }}</p>
+                    <p>Avg mark: {{ avg_mark }}</p>
 
                 </div><!--class="learn"-->
 
@@ -175,8 +174,8 @@
                         </svg>
                         <h4>Settings</h4>
                     </div><!--class="sub-title"-->
-                    <p><a href="#">Change email</a></p>
-                    <p><a href="#">Change password</a></p>
+                    <p><a href="{% url 'change_email' user.pk %}">Change email</a></p>
+                    <p><a href="{% url 'password_change' %}">Change password</a></p>
                 </div><!--class="learn"-->
 
             </div><!--class="container-profile"-->
