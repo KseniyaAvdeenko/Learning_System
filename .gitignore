@@ -1,2 +1,7 @@
 /venv/
 /learning_system/learning_system/secret_settings.py
+/requirements.txt
+/runtime.txt
+/Pipfile.lock
+/Procfile
+/learning_system/db.sqlite3
